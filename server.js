@@ -94,7 +94,7 @@ app.get('/', function (req, res) {
   }
 });
 */
-app.get('/', function(req, res) {
+app.get('/login', function(req, res) {
   userName = req.query.user;
   password = req.query.pass;
   if (!db) {
@@ -106,7 +106,7 @@ app.get('/', function(req, res) {
     if (err) throw err;
     data = result;
     console.log(result);
-    db.close();
+    
   });
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers Authorization, Autho, X-Requested-With');
