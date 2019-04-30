@@ -111,7 +111,7 @@ app.get('/pagecount', function (req, res) {
 
 app.get('/createCollectionForm', function(req, res) {
   
-  MongoClient.connect(mongoURL, function(err, db) {
+  mongodb.connect(mongoURL, function(err, db) {
     if (err) throw err;
     var dbo = db.db("sampledb");
     dbo.createCollection("registeration", function(err, res) {
