@@ -118,8 +118,9 @@ app.get('/createCollectionForm', function(req, res) {
     db.createCollection("registeration", function(err, res) {
       if (err) throw err;
       console.log("Collection members created!");
-      res.send("Collection Created")
+      
     });
+      res.send("Collection Created")
   }
 
   
