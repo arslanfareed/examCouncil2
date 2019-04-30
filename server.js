@@ -72,7 +72,7 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
-
+/*
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
@@ -92,6 +92,30 @@ app.get('/', function (req, res) {
   } else {
     res.render('index.html', { pageCountMessage : null});
   }
+});
+*/
+app.get('/', function(req, res) {
+  userName = req.query.user;
+  password = req.query.pass;
+  if (!db) {
+    initDb(function(err){});
+  }
+ 
+  if (db) {
+  db.collection("registeration").findOne({email:userName, password:password},{}, function(err, result) {
+    if (err) throw err;
+    data = result;
+    console.log(result);
+    db.close();
+  });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers Authorization, Autho, X-Requested-With');
+  res.send(JSON.stringify(data));
+  
+};
+
+
+
 });
 
 app.get('/pagecount', function (req, res) {
