@@ -110,18 +110,19 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.get('/createCollectionForm', function(req, res) {
-  
-  mongodb.connect(mongoURL, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("sampledb");
-    dbo.createCollection("registeration", function(err, res) {
+  if (!db) {
+    initDb(function(err){});
+  }
+ 
+  if (db) {
+    db.createCollection("registeration", function(err, res) {
       if (err) throw err;
       console.log("Collection members created!");
-      db.close();
+      res.end("Collection Created")
     });
-  });
+  }
 
-  res.end("Collection Created")
+  
 });
 
 
