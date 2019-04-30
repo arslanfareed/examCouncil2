@@ -109,6 +109,26 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
+
+app.get('/createCollectionRegisteration', function(req, res) {
+  
+  if (!db) {
+    initDb(function(err){});
+  }
+ 
+  if (db) {
+    db.createCollection("registeration", function(err, res) {
+      if (err) throw err;
+      console.log("Collection registeration created!");
+      
+      res.send("Collection registeration Created");
+    });
+    res.send("Collection registeration Created")
+  }
+});
+
+
+
 app.get('/createCollectionForm', function(req, res) {
   if (!db) {
     initDb(function(err){});
@@ -124,6 +144,82 @@ app.get('/createCollectionForm', function(req, res) {
   }
 
   
+});
+
+
+app.get('/insertDocument', function(req, res) {
+ 
+  var firstName = req.query.firstName;
+  var lastName = req.query.lastName;
+  var userName = req.query.userName;
+  var email = req.query.email;
+  var password = req.query.password;
+  var gender = req.query.gender;
+  var category = req.query.category;
+  var dob = req.query.dob;
+  var schoolName = req.query.schoolName;
+  var contactNo = req.query.contactNo;
+
+  var emailverification = "";
+  ///////////////////////////////////////////////////
+
+
+
+  if (!db) {
+    initDb(function(err){});
+  }
+ 
+  if (db) {
+db.collection("registeration").findOne({email:email, password:password},{}, function(err, result) {
+if (err) throw err;
+if(result){
+emailverification = result;
+console.log(result );
+}
+if(emailverification.email != email ){
+
+  //////////////////////////////////////////////////
+  
+  if (!db) {
+    initDb(function(err){});
+  }
+ 
+  if (db) {
+      var myobj = 
+        { firstName:firstName,
+          lastName:lastName,
+          userName:userName,
+          email:email,
+          password:password,
+          gender:gender,
+          category:category,
+          dob:dob,
+          schoolName:schoolName,
+          contactNo:contactNo };
+      db.collection("registeration").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+        
+      });
+    };
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers Authorization, Autho, X-Requested-With');
+      console.log("Account Created");
+      res.send('{"document":"inserted"}');
+    }
+    else{
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers Authorization, Autho, X-Requested-With');
+      console.log("Email Already Exist");
+      res.send('{"document":"Email Already Exist"}');
+  
+    }
+
+
+});
+};
+
+
 });
 
 
